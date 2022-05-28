@@ -3,57 +3,51 @@ x2 = False
 x4 = False
 x8 = False
 
+cookies = 0
+increase = 1
+pza = 0
+
 #save value search
 def letterFreq(fileName, letter):
     file = open(fileName, "r")
     text = file.read()
     return text.count(letter)
 
-#set save values
-cookies = int(letterFreq("cookies.txt", "c"))
-pza = int(letterFreq("cookies.txt", "p"))
-increase = int(letterFreq("cookies.txt", "i"))
-if letterFreq("cookies.txt", "2"):
-	x2 = True
-if letterFreq("cookies.txt", "4"):
-	x4 = True
-if letterFreq("cookies.txt", "8"):
-	x8 = True
-
-#cant read file unless at least 1 so set to one in file initially then reset to 0 anything above stays.
-if cookies == 1:
-    cookies = 0
-if pza == 1:
-    pza = 0
-
-#clear existing save?    
-if cookies > 0:
+#choose save
+o = input("Enter the name of your save if you have one. Otherwise enter no.")
+if o.lower() == "no":
+	print("Creating new save...")
+else:
+	savn = (o + ".txt")
+	
+	#set save values
+	cookies = int(letterFreq(savn, "c"))
+	pza = int(letterFreq(savn, "p"))
+	increase = int(letterFreq(savn, "i"))
+	if letterFreq(savn, "2"):
+		x2 = True
+	if letterFreq(savn, "4"):
+		x4 = True
+	if letterFreq(savn, "8"):
+		x8 = True
+	
+	if cookies > 1:
+	   
+	    cookies = str(cookies)
+	    pza = str(pza)
+	    
+	    print(cookies + "CKs")
+	    print(pza + "PZa")
+	    if x2 == True:
+	    	print("1 x2 power up")
+	    if x4 == True:
+	    	print("1 x4 power up")
+	    if x8 == True:
+	    	print("1 x8 power up")
     
-    cookies = str(cookies)
-    pza = str(pza)
-    increase = str(increase)
-    
-    print("Save Detected: ")
-    print(cookies + " CKs")
-    print(pza + "PZa")
-    if x2 == True:
-    	print("1 x2 power up")
-    if x4 == True:
-    	print("1 x4 power up")
-    if x8 == True:
-    	print("1 x8 power up")
-    w = input("Clear? [Y/N]")
-    
-    cookies = int(cookies)
-    pza = int(pza)
-    increase = int(increase)
-    if w.lower() == "y":
-        cookies = 0
-        increase = 1
-        pza = 0
-        x2 = False
-        x4 = False
-        x8 = False
+cookies = int(cookies)
+pza = int(pza)
+increase = int(increase)
 
 clks = 0
 p = 0
@@ -164,6 +158,7 @@ def Refresh():
         print("CKs" + cookies + "  PZa" + pza)
         cookies = int(cookies)
         pza = int(pza)
+#//#
 
 #shop
 def Shop():
@@ -177,13 +172,13 @@ def Shop():
     
     #items
     item1 = "x2"
-    it1p = 50
+    it1p = 50 * increase
     item2 = "x4"
-    it2p = 100
+    it2p = 100 * increase
     item3 = "x8"
-    it3p = 200
+    it3p = 200 * increase
     item4 = "Itm4"
-    it4p = 200
+    it4p = 200 * increase
 
     #draw shop#
     cookies = str(cookies)
@@ -266,7 +261,7 @@ def Shop():
 
 #cba to write this out 3 times ¶:
 def saveLet(letter):
-            file = open("cookies.txt", "a")
+            file = open(savn, "a")
             file.write(letter)    
             file.close()
             
@@ -293,8 +288,10 @@ if q.lower() == "y":
     pza = int(pza)
     increase = int(increase)
     
+    savn = (input("Enter savefile name: ") + ".txt")
+    
     #clear save
-    file = open("cookies.txt", "w")
+    file = open(savn, "w")
     file.write("")
     file.close()
     
