@@ -1,22 +1,56 @@
 
-cks = open("cookies.txt", "r")
-cookies = int(cks.readline())
-cks.close()
-
-inc = open("inc.txt", "r")
-increase = int(inc.readline())
-inc.close()
-
-pz = open("pizza.txt", "r")
-pza = int(pz.readline())
-pz.close()
-
-clks = 0
-p = 0
-
 x2 = False
 x4 = False
 x8 = False
+
+cookies = 0
+increase = 1
+pza = 0
+
+#save value search
+def letterFreq(fileName, letter):
+    file = open(fileName, "r")
+    text = file.read()
+    return text.count(letter)
+
+#choose save
+o = input("Enter the name of your save if you have one. Otherwise enter no.")
+if o.lower() == "no":
+	print("Creating new save...")
+else:
+	savn = (o + ".txt")
+	
+	#set save values
+	cookies = int(letterFreq(savn, "c"))
+	pza = int(letterFreq(savn, "p"))
+	increase = int(letterFreq(savn, "i"))
+	if letterFreq(savn, "2"):
+		x2 = True
+	if letterFreq(savn, "4"):
+		x4 = True
+	if letterFreq(savn, "8"):
+		x8 = True
+	
+	if cookies > 1:
+	   
+	    cookies = str(cookies)
+	    pza = str(pza)
+	    
+	    print(cookies + "CKs")
+	    print(pza + "PZa")
+	    if x2 == True:
+	    	print("1 x2 power up")
+	    if x4 == True:
+	    	print("1 x4 power up")
+	    if x8 == True:
+	    	print("1 x8 power up")
+    
+cookies = int(cookies)
+pza = int(pza)
+increase = int(increase)
+
+clks = 0
+p = 0
 
 #Per Refresh [on enter]
 def Refresh():
@@ -68,12 +102,14 @@ def Refresh():
             print("")
             print("")
 
+    #globals... duh ¶:
     global clks
     global increase
     global cookies
     global p
     global pza
     global shop
+    global r
 
     ck = False
     
@@ -84,6 +120,8 @@ def Refresh():
         clks = clks + 1
     elif c == "shop":
         shop = True
+    elif c == "close":
+        r = False
 
     #increase
     if ck == True:
@@ -120,6 +158,7 @@ def Refresh():
         print("CKs" + cookies + "  PZa" + pza)
         cookies = int(cookies)
         pza = int(pza)
+#//#
 
 #shop
 def Shop():
@@ -133,13 +172,13 @@ def Shop():
     
     #items
     item1 = "x2"
-    it1p = 50
+    it1p = 50 * increase
     item2 = "x4"
-    it2p = 100
+    it2p = 100 * increase
     item3 = "x8"
-    it3p = 200
+    it3p = 200 * increase
     item4 = "Itm4"
-    it4p = 200
+    it4p = 200 * increase
 
     #draw shop#
     cookies = str(cookies)
@@ -216,11 +255,15 @@ def Shop():
                 cookies = int(cookies)
                 add = int(add)
             else:
-                print("Okie then never mind... :C")
+                print("Okie then never mind.")
         elif i == "close":
             shop = False
 
-    
+#cba to write this out 3 times ¶:
+def saveLet(letter):
+            file = open(savn, "a")
+            file.write(letter)    
+            file.close()
             
 #comp
 shop = False
@@ -230,5 +273,48 @@ while r == True:
         Refresh()
     elif shop == True:
         Shop()
+
+cookies = str(cookies)
+pza = str(pza)
+increase = str(increase)
+
+#saves
+print("Game quit. You ended with " + cookies + " CKs and " + pza+ " PZa. Your increase for each click was " + increase)
+q = input("Save? [Y/N] ")
+
+if q.lower() == "y":
     
+    cookies = int(cookies)
+    pza = int(pza)
+    increase = int(increase)
     
+    savn = (input("Enter savefile name: ") + ".txt")
+    
+    #clear save
+    file = open(savn, "w")
+    file.write("")
+    file.close()
+    
+    #write save
+    if x2 == True:
+    	saveLet("2")
+    if x4 == True:
+    	saveLet("4")
+    if x8 == True:
+    	saveLet("8")
+    while cookies > 0:
+        saveLet("c")
+        cookies = cookies - 1
+    print("33%....................")
+    while pza > 0:
+        saveLet("p")
+        pza = pza - 1
+    print("66%....................")
+    while increase > 0:
+        saveLet("i")
+        increase = increase - 1
+    print("99%....................")
+    print("100% SAVED ¶:")
+        
+else:
+    print("Okie not saved.")
