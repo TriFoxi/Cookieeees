@@ -1,3 +1,4 @@
+import random
 
 x2 = False
 x4 = False
@@ -14,36 +15,42 @@ def letterFreq(fileName, letter):
     return text.count(letter)
 
 #choose save
-o = input("Enter the name of your save if you have one. Otherwise enter no.")
-if o.lower() == "no":
-	print("Creating new save...")
-else:
-	savn = (o + ".txt")
+i = True
+while i:
+	o = input("Enter the name of your save if you have one. Otherwise enter no.")
+	if o.lower() == "no":
+		print("Creating new save...")
+		i = False
+	elif o == "":
+		print("Try Again.")
+	else:
+		savn = (o + ".txt")
+		i = False
 	
-	#set save values
-	cookies = int(letterFreq(savn, "c"))
-	pza = int(letterFreq(savn, "p"))
-	increase = int(letterFreq(savn, "i"))
-	if letterFreq(savn, "2"):
-		x2 = True
-	if letterFreq(savn, "4"):
-		x4 = True
-	if letterFreq(savn, "8"):
-		x8 = True
-	
-	if cookies > 1:
-	   
-	    cookies = str(cookies)
-	    pza = str(pza)
-	    
-	    print(cookies + "CKs")
-	    print(pza + "PZa")
-	    if x2 == True:
-	    	print("1 x2 power up")
-	    if x4 == True:
-	    	print("1 x4 power up")
-	    if x8 == True:
-	    	print("1 x8 power up")
+		#set save values
+		cookies = int(letterFreq(savn, "c"))
+		pza = int(letterFreq(savn, "p"))
+		increase = int(letterFreq(savn, "i"))
+		if letterFreq(savn, "2"):
+			x2 = True
+		if letterFreq(savn, "4"):
+			x4 = True
+		if letterFreq(savn, "8"):
+			x8 = True
+		
+		if cookies > 1:
+		   
+		    cookies = str(cookies)
+		    pza = str(pza)
+		    
+		    print(cookies + "CKs")
+		    print(pza + "PZa")
+		    if x2 == True:
+		    	print("1 x2 power up")
+		    if x4 == True:
+		    	print("1 x4 power up")
+		    if x8 == True:
+		    	print("1 x8 power up")
     
 cookies = int(cookies)
 pza = int(pza)
@@ -158,6 +165,11 @@ def Refresh():
         print("CKs" + cookies + "  PZa" + pza)
         cookies = int(cookies)
         pza = int(pza)
+        
+        #randoms
+        if ck == True:
+        	random_event()
+        
 #//#
 
 #shop
@@ -258,6 +270,29 @@ def Shop():
                 print("Okie then never mind.")
         elif i == "close":
             shop = False
+
+def random_event():
+	
+	#globals (again lol)
+	global cookies
+	global pza
+	
+	event = random.randint(0, 1000)
+	
+	cookies = int(cookies)
+	pza = int(pza)
+	
+	#events
+	if event < 10:
+		print("You found a bonus cookie! [+5 CKs]")
+		cookies = cookies + 5
+	elif event > 990:
+		print("You found a bonus pizza! [+5 PZa]")
+		pza = pza + 5
+	elif event == 11:
+		print("JACKPOT :D [+20 PZa & +50 CKs]")
+		pza = pza + 20
+		cookies = cookies + 50
 
 #cba to write this out 3 times ¶:
 def saveLet(letter):
